@@ -3,12 +3,14 @@ import {
     WeatherItem,
     WeatherIcon,
     WeatherDetail,
-    WeatherEmoji
+    WeatherEmoji,
+    DeleteButton
 } from '../styles';
 import { WeatherData } from '../types/weather';
 
 interface WeatherDisplayProps {
     weather: WeatherData;
+    onRemove: () => void;
 }
 
 const getWeatherEmoji = (weatherCode: number) => {
@@ -24,7 +26,6 @@ const getWeatherEmoji = (weatherCode: number) => {
 
 const formatLocalTime = (timezoneOffset: number) => {
     const now = new Date();
-    // Преобразуем смещение из секунд в миллисекунды
     const localTime = new Date(now.getTime() + timezoneOffset * 1000);
     return localTime.toLocaleTimeString('ru-RU', {
         hour: '2-digit',
@@ -33,34 +34,50 @@ const formatLocalTime = (timezoneOffset: number) => {
     });
 };
 
-const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ weather }) => {
-    const weatherCode = weather.weather[0].id;
-    const emoji = getWeatherEmoji(weatherCode);
+const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ weather, onRemove }) => {
+    const weatherData = weather.weather[0];
+    const emoji = getWeatherEmoji(weatherData.id);
     const localTime = formatLocalTime(weather.timezone);
 
     return (
         <WeatherItem weather={weather}>
+            <DeleteButton onClick={onRemove} aria-label="Удалить город">
+                ×
+            </DeleteButton>
+
             <WeatherIcon>
                 <WeatherEmoji>{emoji}</WeatherEmoji>
                 <img
-                    src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-                    alt={weather.weather[0].description}
-                    style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }}
+                    src={`https://openweathermap.org/img/wn/${weatherData.icon}@2x.png`}
+                    alt={weatherData.description}
                 />
             </WeatherIcon>
+
             <h2>{weather.name}</h2>
+
             <WeatherDetail>
                 <WeatherEmoji>🕒</WeatherEmoji>
                 <span>Местное время: {localTime}</span>
             </WeatherDetail>
+
+            <WeatherDetail>
+                <WeatherEmoji>🌡️</WeatherEmoji>
+                <span>
+                    {Math.round(weather.main.temp)}°C
+                    (ощущается как {Math.round(weather.main.feels_like)}°C)
+                </span>
+            </WeatherDetail>
+
             <WeatherDetail>
                 <WeatherEmoji>{emoji}</WeatherEmoji>
-                <span>{weather.weather[0].description}</span>
+                <span>{weatherData.description}</span>
             </WeatherDetail>
+
             <WeatherDetail>
                 <WeatherEmoji>💨</WeatherEmoji>
                 <span>{weather.wind.speed} м/с</span>
             </WeatherDetail>
+
             <WeatherDetail>
                 <WeatherEmoji>💧</WeatherEmoji>
                 <span>{weather.main.humidity}% влажности</span>

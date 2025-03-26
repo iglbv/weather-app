@@ -8,7 +8,6 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 
-// Роуты
 app.use('/api/weather', weatherRoutes);
 
 app.listen(PORT, () => {

@@ -1,11 +1,10 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
 
-// Загружаем переменные окружения
 dotenv.config();
 
 const weatherCache = new Map<string, { data: any; timestamp: number }>();
-const CACHE_TTL = 15 * 60 * 1000; // 15 минут
+const CACHE_TTL = 15 * 60 * 1000;
 
 export const getWeather = async (city: string) => {
     const cached = weatherCache.get(city);

@@ -23,6 +23,7 @@ const WeatherForm: React.FC<WeatherFormProps> = ({ onAddCity }) => {
                 placeholder="Введите город"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
+                aria-label="Название города"
             />
             <WeatherButton type="submit">
                 Добавить город

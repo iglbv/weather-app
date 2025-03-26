@@ -20,7 +20,7 @@ export interface WeatherData {
     main: WeatherMain;
     wind: WeatherWind;
     name: string;
-    timezone: number; // Добавляем timezone из API (смещение в секундах)
+    timezone: number;
 }
 
 export interface CityWeather {

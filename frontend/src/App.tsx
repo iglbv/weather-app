@@ -31,16 +31,31 @@ const App: React.FC = () => {
   };
 
   const addCity = async (city: string) => {
+    const normalizedCity = city.trim().toLowerCase();
+
+    const cityExists = cities.some(c =>
+      c.name.toLowerCase() === normalizedCity
+    );
+
+    if (cityExists) {
+      setError('Этот город уже есть в списке');
+      return;
+    }
+
     const weatherData = await fetchWeather(city);
     if (weatherData) {
       const newCity: CityWeather = {
         id: uuidv4(),
-        name: city,
+        name: city.trim(),
         weather: weatherData,
       };
       setCities([...cities, newCity]);
       setError(null);
     }
+  };
+
+  const removeCity = (id: string) => {
+    setCities(cities.filter(city => city.id !== id));
   };
 
   const refreshWeather = async () => {
@@ -63,7 +78,7 @@ const App: React.FC = () => {
           <RefreshButton onClick={refreshWeather}>
             Обновить все города
           </RefreshButton>
-          <WeatherList cities={cities} />
+          <WeatherList cities={cities} onRemoveCity={removeCity} />
         </AppContainer>
       </GlobalStyles>
     </ThemeProvider>
