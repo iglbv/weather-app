@@ -69,11 +69,6 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ weather, onRemove }) =>
             </WeatherDetail>
 
             <WeatherDetail>
-                <WeatherEmoji>{emoji}</WeatherEmoji>
-                <span>{weatherData.description}</span>
-            </WeatherDetail>
-
-            <WeatherDetail>
                 <WeatherEmoji>💨</WeatherEmoji>
                 <span>{weather.wind.speed} м/с</span>
             </WeatherDetail>

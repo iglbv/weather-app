@@ -27,4 +27,5 @@ export interface CityWeather {
     id: string;
     name: string;
     weather: WeatherData;
+    lastUpdated?: string;
 }

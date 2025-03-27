@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 import { keyframes } from '@emotion/react';
 import { WeatherData } from './types/weather';
 
@@ -35,26 +36,25 @@ const fadeIn = keyframes`
   to { opacity: 1; }
 `;
 
-const getTempGradient = (temp: number) => {
-  if (temp < 0) return 'linear-gradient(135deg, #0061ff, #0040a8)';
-  if (temp < 10) return 'linear-gradient(135deg, #00a86b, #007a4d)';
-  if (temp < 20) return 'linear-gradient(135deg, #ff8c00, #cc7000)';
-  return 'linear-gradient(135deg, #ff3d3d, #cc0000)';
-};
-
 export const GlobalStyles = styled.div`
   body {
     margin: 0;
+    padding-top: 64px;
+    padding: 0;
     min-height: 100vh;
+    font-family: 'Montserrat', sans-serif;
     background: ${({ theme }) => theme.background};
     color: ${({ theme }) => theme.text};
-    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
   }
 
-  h1, h2, h3 {
+  * {
+    box-sizing: border-box;
+  }
+
+  h1, h2, h3, h4 {
     font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    margin: 0;
+    margin: 0 0 1rem 0;
   }
 `;
 
@@ -62,6 +62,7 @@ export const AppContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
+  padding-top: 6rem;
 `;
 
 export const Title = styled.h1`
@@ -72,6 +73,49 @@ export const Title = styled.h1`
   background-clip: text;
   color: transparent;
   text-align: center;
+`;
+
+export const Toolbar = styled.header`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: ${({ theme }) => theme.primary};
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+`;
+
+export const ToolbarTitle = styled.h1`
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+`;
+
+export const NavLink = styled(Link)`
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.75rem 1.25rem;
+  margin-left: 0.5rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+  }
+
+  &.active {
+    background: rgba(255, 255, 255, 0.25);
+    font-weight: 600;
+  }
 `;
 
 export const WeatherFormStyled = styled.form`
@@ -118,6 +162,13 @@ export const WeatherListStyled = styled.div`
   gap: 1.5rem;
   margin-top: 2rem;
 `;
+
+const getTempGradient = (temp: number) => {
+  if (temp < 0) return 'linear-gradient(135deg, #0061ff, #0040a8)';
+  if (temp < 10) return 'linear-gradient(135deg, #00a86b, #007a4d)';
+  if (temp < 20) return 'linear-gradient(135deg, #ff8c00, #cc7000)';
+  return 'linear-gradient(135deg, #ff3d3d, #cc0000)';
+};
 
 export const WeatherItem = styled.div<{ weather: WeatherData }>`
   position: relative;
@@ -194,5 +245,26 @@ export const DeleteButton = styled.button`
 
   &:hover {
     background: rgba(255, 255, 255, 0.3);
+  }
+`;
+
+export const HistoryContainer = styled.div`
+  margin: 6rem auto 2rem; /* Отступ сверху 6rem */
+  padding: 2rem;
+  max-width: 800px;
+  background: ${({ theme }) => theme.cardBg};
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    color: ${({ theme }) => theme.primary};
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    margin: 5rem 1rem 1rem;
+    padding: 1.5rem;
   }
 `;
